@@ -940,26 +940,30 @@ class MegaminxGUI:
         print(count)
         return(count)
     def solve(self):
-        #print("TESTTT")
-        count = 120
-        faceTrack = 100
-        newCount = 0
-        while (count != 0):
+        test = self.count_misplaced_stickers()
+        print("Test: "+str(test))
+        if(test == 0):
+            print("The MegaMinx is already solved")
+        else:
             count = 120
             faceTrack = 100
             newCount = 0
-            for i in range(12):
-                print("Rotatated face "+str(i))
-                self.rotate_face_counterclockwise(i)
-                newCount = self.count_misplaced_stickers()
-                print("New Count: "+str(newCount))
-                if (newCount<count):
-                    count = newCount
-                    faceTrack = i
-                    print("FaceTrack "+str(faceTrack))
-                self.rotate_face_clockwise(i)
-            print("Roatated face "+str(faceTrack))
-            self.rotate_face_counterclockwise(faceTrack)
+            while (count != 0):
+                count = 120
+                faceTrack = 100
+                newCount = 0
+                for i in range(12):
+                    print("Rotatated face "+str(i))
+                    self.rotate_face_counterclockwise(i)
+                    newCount = self.count_misplaced_stickers()
+                    print("New Count: "+str(newCount))
+                    if (newCount<count):
+                        count = newCount
+                        faceTrack = i
+                        print("FaceTrack "+str(faceTrack))
+                    self.rotate_face_clockwise(i)
+                print("Roatated face "+str(faceTrack))
+                self.rotate_face_counterclockwise(faceTrack)
 
 # Create a Tkinter window
 root = tk.Tk()
