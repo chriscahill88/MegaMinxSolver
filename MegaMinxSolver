@@ -262,9 +262,9 @@ class MegaminxGUI:
         solve_button = tk.Button(master, text="Solve", command=self.solve)
         solve_button.grid(row=12, column=5, pady=10)
 
-        '''# Create a count misplaced stickers button
+        # Create a count misplaced stickers button
         count_button = tk.Button(master, text="Count Misplaced Stickers", command=self.count_misplaced_stickers)
-        count_button.grid(row=12, column=9, pady=10)'''
+        count_button.grid(row=12, column=9, pady=10)
 
         # Create a randomize button
         randomize_button = tk.Button(master, text="Randomize", command=self.randomize)
@@ -826,8 +826,8 @@ class MegaminxGUI:
             self.stickers[10][8]["text"] = self.stickers[9][8]["text"]
             self.stickers[9][8]["text"] = self.stickers[8][6]["text"]
             self.stickers[8][6]["text"] = temp_text3
-    def count_misplaced_stickers(self):
-        count = 0 # Counts misplacedstickers
+    def count_misplaced_stickers(self): # This is what we belive is that state function
+        count = 0 # Counts misplacedstickers 
         i = 0 #Used for looping faces
         j = 0 #Used for looping stickers
         for i in range(12):  # Outer loop from 0 to 11
@@ -840,19 +840,21 @@ class MegaminxGUI:
                     count = count + 0
                 else:
                     count = count + 1
-        #print(str(count)+" Misplaced pieces")
+        print(str(count)+" Misplaced pieces")
         return(count) # Return the amount of misplaced stickers
     def solve(self):
         test = self.count_misplaced_stickers()
         if(test == 0):
             print("The MegaMinx is already solved")
         else:
+            nodes = 0
             moves = 0 #Counter for how many moves it took to solve
             count = 120 #Will keep track of the lowest amount of misplaced stickers, set to 120 because thats the max
             faceTrack = 100 #Tracker to know which face to turn, set to 100 since that is not a valid face
             newCount = 0 # Will be set to the amuont of misplaced stickers when a face is rotated and will be compared to count
-            while (count != 0): #Run while the MegaMinx is not solved
-                for i in range(12): #Rotating through each face
+            while (count != 0): #Run while the MegaMinx is not solved. Also Checking for solved state before applying child function
+                for i in range(12): #Rotating through each face, lines 856-864 is the child function
+                    nodes = nodes +1
                     self.rotate_face_counterclockwise(i) #Rotate face i
                     newCount = self.count_misplaced_stickers() #Check how many stickers are misplaced
                     if (newCount<count): #If statement to see if the newly checked face has less misaplced stickers than the previous low
@@ -863,6 +865,7 @@ class MegaminxGUI:
                 moves = moves + 1 #Counting number of moves
             print("The MegaMinx is solved!")
             print("It Took "+str(moves)+" Move(s) To solve the MegaMinx")
+            print("Amuont of Nodes"+str(nodes))
     def find_location(self, title):
         for face, stickers in self.stickers.items():
             for sticker in range(len(stickers)):
@@ -870,15 +873,7 @@ class MegaminxGUI:
                     return face, sticker
         return None, None
 
-
-
-
-
-
-
-                    
-                
-                
+             
 
 # Create a Tkinter window
 root = tk.Tk()
