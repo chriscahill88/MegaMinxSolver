@@ -873,7 +873,8 @@ class MegaminxGUI:
                     return face, sticker
         return None, None
 
-             
+
+            
 
 # Create a Tkinter window
 root = tk.Tk()
