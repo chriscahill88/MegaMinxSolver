@@ -1,4 +1,5 @@
 #Created by Christopher Cahill on 9/8/2023 at 10:00 A.M.
+#All the prompts were given to ChatGPT version 3.5
 #ChatGPT was used to create the structure for this program and was given the prompt "How would you code a megaminx with a GUI from scratch in Python on VSCode" at 10:10 A.M on 9/8/2023
 #ChatGPT was also given these prompts at 10:10-11:00 A.M on 9/8/2023
 #"i would like to add the pieces of each face, how would I do that"
@@ -12,6 +13,8 @@
 #" Can you add a button that says randomize"
 #"Can you change the randomize button so it rotates different faces clockwise"
 #"Can you modify the randomize button again so it takes in an input of random moves to be made and then randomly rotates that many times"
+#ChatGPT was 
+
 
 
 import tkinter as tk
@@ -24,7 +27,7 @@ class MegaminxGUI:
         self.master = master
         self.master.title("Megaminx Solver")
 
-        # Initialize the stickers for each face
+        #Creating the User will be able to interact with
         self.stickers = {}
         colors = ["Blue", "Yellow", "Lime", "Pink", "Red", "White","Purple","Green","Orange","Teal","Gold","Silver"]  # Add more colors if needed
 
@@ -36,8 +39,9 @@ class MegaminxGUI:
                 label.grid(row=face, column=sticker, padx=5, pady=5)
                 label.bind("<Button-1>", lambda event, f=face, s=sticker: self.handle_sticker_click(f, s))
                 self.stickers[face].append(label)
+        #Create a second MegaMinx that doesn't change so the solver knows what a completed MegaMinx is
+        # Create a second MegaMinx that doesn't change so the solver knows what a completed MegaMinx is
         self.original = {}
-        
         colors = ["Blue", "Yellow", "Lime", "Pink", "Red", "White","Purple","Green","Orange","Teal","Gold","Silver"]  # Add more colors if needed
 
         for face in range(12):
@@ -45,9 +49,11 @@ class MegaminxGUI:
             for sticker in range(10):
                 label = tk.Label(master, text=f"{colors[face]} {sticker+1}", 
                             cursor="hand2")
-                label.grid(row=face, column=sticker, padx=5, pady=5)
+                label.grid(row=face, column=sticker + 15, padx=5, pady=5)  # Adjusted column position
                 label.bind("<Button-1>", lambda event, f=face, s=sticker: self.handle_sticker_click(f, s))
                 self.original[face].append(label)
+                label.grid_remove()  # Hide the label
+
         
 
         
@@ -82,6 +88,7 @@ class MegaminxGUI:
         context_menu.add_command(label="Rotate Face Counter Clockwise", command=lambda f=face: self.rotate_face_counterclockwise(f))
         context_menu.post(self.master.winfo_pointerx(), self.master.winfo_pointery())
 
+    #Clockwise rotations
     def rotate_face_clockwise(self, face):
         if face == 0:
             # Rotate the BLUE FACE (0) clockwise 
@@ -480,7 +487,7 @@ class MegaminxGUI:
             self.stickers[10][8]["text"] = self.stickers[3][8]["text"]
             self.stickers[3][8]["text"] = temp_text3
     
-    
+    #Counter Clockwise rotations
     def rotate_face_counterclockwise(self, face):
         if face == 0:
             # Rotate the BLUE FACE (0) counterclockwise 
@@ -923,9 +930,9 @@ class MegaminxGUI:
             self.stickers[9][8]["text"] = self.stickers[8][6]["text"]
             self.stickers[8][6]["text"] = temp_text3
     def count_misplaced_stickers(self):
-        count = 0
-        i = 0
-        j = 0
+        count = 0 # Counts misplacedstickers
+        i = 0 #Used for looping faces
+        j = 0 #Used for looping stickers
         for i in range(12):  # Outer loop from 0 to 11
             for j in range(10):  # Inner loop from 0 to 9
                 text_value_1 = self.stickers[i][j]["text"]
@@ -936,30 +943,27 @@ class MegaminxGUI:
                     count = count + 0
                 else:
                     count = count + 1
-                    #print("I: "+str(i)+ "J: "+str(j))
-        return(count)
+        print(str(count)+" Misplaced pieces")
+        return(count) # Return the amount of misplaced stickers
     def solve(self):
         test = self.count_misplaced_stickers()
         if(test == 0):
             print("The MegaMinx is already solved")
         else:
-            moves = 0
-            count = 120
-            faceTrack = 100
-            newCount = 0
-            while (count != 0):
-                count = 120
-                faceTrack = 100
-                newCount = 0
-                for i in range(12):
-                    self.rotate_face_counterclockwise(i)
-                    newCount = self.count_misplaced_stickers()
-                    if (newCount<count):
-                        count = newCount
-                        faceTrack = i
-                    self.rotate_face_clockwise(i)
-                self.rotate_face_counterclockwise(faceTrack)
-                moves = moves + 1
+            moves = 0 #Counter for how many moves it took to solve
+            count = 120 #Will keep track of the lowest amount of misplaced stickers, set to 120 because thats the max
+            faceTrack = 100 #Tracker to know which face to turn, set to 100 since that is not a valid face
+            newCount = 0 # Will be set to the amuont of misplaced stickers when a face is rotated and will be compared to count
+            while (count != 0): #Run while the MegaMinx is not solved
+                for i in range(12): #Rotating through each face
+                    self.rotate_face_counterclockwise(i) #Rotate face i
+                    newCount = self.count_misplaced_stickers() #Check how many stickers are misplaced
+                    if (newCount<count): #If statement to see if the newly checked face has less misaplced stickers than the previous low
+                        count = newCount #Set new low number of misplaced stickers
+                        faceTrack = i #Keep track of which face gave us the least misaplced sticker
+                    self.rotate_face_clockwise(i) #Rotate the face to its original position
+                self.rotate_face_counterclockwise(faceTrack) #For loop is over, rotate the face
+                moves = moves + 1 #Counting number of moves
             print("The MegaMinx is solved!")
             print("It Took "+str(moves)+" Move(s) To solve the MegaMinx")
 
