@@ -842,7 +842,7 @@ class MegaminxGUI:
             self.stickers[7][9]["text"] = self.stickers[6][3]["text"]
             self.stickers[6][3]["text"] = self.stickers[8][3]["text"]
             self.stickers[8][3]["text"] = temp_text2
-            temp_text3 = self.stickers[11][4]["text"]
+            temp_text3 = self.stickers[11][2]["text"]
             self.stickers[11][2]["text"] = self.stickers[10][0]["text"]
             self.stickers[10][0]["text"] = self.stickers[7][0]["text"]
             self.stickers[7][0]["text"] = self.stickers[6][4]["text"]
@@ -924,6 +924,8 @@ class MegaminxGUI:
             self.stickers[8][6]["text"] = temp_text3
     def count_misplaced_stickers(self):
         count = 0
+        i = 0
+        j = 0
         for i in range(12):  # Outer loop from 0 to 11
             for j in range(10):  # Inner loop from 0 to 9
                 text_value_1 = self.stickers[i][j]["text"]
@@ -934,12 +936,18 @@ class MegaminxGUI:
                     count = count + 0
                 else:
                     count = count + 1
+                    #print("I: "+str(i)+ "J: "+str(j))
         print(count)
         return(count)
     def solve(self):
+        #print("TESTTT")
         count = 120
         faceTrack = 100
+        newCount = 0
         while (count != 0):
+            count = 120
+            faceTrack = 100
+            newCount = 0
             for i in range(12):
                 print("Rotatated face "+str(i))
                 self.rotate_face_counterclockwise(i)
