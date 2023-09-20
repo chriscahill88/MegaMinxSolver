@@ -937,11 +937,9 @@ class MegaminxGUI:
                 else:
                     count = count + 1
                     #print("I: "+str(i)+ "J: "+str(j))
-        print(count)
         return(count)
     def solve(self):
         test = self.count_misplaced_stickers()
-        print("Test: "+str(test))
         if(test == 0):
             print("The MegaMinx is already solved")
         else:
@@ -954,18 +952,15 @@ class MegaminxGUI:
                 faceTrack = 100
                 newCount = 0
                 for i in range(12):
-                    print("Rotatated face "+str(i))
                     self.rotate_face_counterclockwise(i)
                     newCount = self.count_misplaced_stickers()
-                    print("New Count: "+str(newCount))
                     if (newCount<count):
                         count = newCount
                         faceTrack = i
-                        print("FaceTrack "+str(faceTrack))
                     self.rotate_face_clockwise(i)
-                print("Roatated face "+str(faceTrack))
                 self.rotate_face_counterclockwise(faceTrack)
                 moves = moves + 1
+            print("The MegaMinx is solved!")
             print("It Took "+str(moves)+" Move(s) To solve the MegaMinx")
 
 # Create a Tkinter window
