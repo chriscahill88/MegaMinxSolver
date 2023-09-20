@@ -945,6 +945,7 @@ class MegaminxGUI:
         if(test == 0):
             print("The MegaMinx is already solved")
         else:
+            moves = 0
             count = 120
             faceTrack = 100
             newCount = 0
@@ -964,6 +965,8 @@ class MegaminxGUI:
                     self.rotate_face_clockwise(i)
                 print("Roatated face "+str(faceTrack))
                 self.rotate_face_counterclockwise(faceTrack)
+                moves = moves + 1
+            print("It Took "+str(moves)+" Move(s) To solve the MegaMinx")
 
 # Create a Tkinter window
 root = tk.Tk()
