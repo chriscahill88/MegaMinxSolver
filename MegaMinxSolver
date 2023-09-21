@@ -13,7 +13,7 @@
 #" Can you add a button that says randomize"
 #"Can you change the randomize button so it rotates different faces clockwise"
 #"Can you modify the randomize button again so it takes in an input of random moves to be made and then randomly rotates that many times"
-#ChatGPT was used to create the find_location definition by asking it "Must use heap/priority queue correctly & appropriately"
+#ChatGPT was used to create the find_location definition by asking it "Can you create a function that searches location where the title Blue 1" on 9/20/23 at 6:34
 
 
 
