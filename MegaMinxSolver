@@ -258,7 +258,6 @@ class MegaminxGUI:
                 self.original[face].append(label)
                 label.grid_remove()
         
-
         # Create a solve button
         solve_button = tk.Button(master, text="Solve", command=self.solve)
         solve_button.grid(row=12, column=5, pady=10)
@@ -827,6 +826,7 @@ class MegaminxGUI:
             self.stickers[10][8]["text"] = self.stickers[9][8]["text"]
             self.stickers[9][8]["text"] = self.stickers[8][6]["text"]
             self.stickers[8][6]["text"] = temp_text3
+            
     def count_misplaced_stickers(self): # This is what we belive is that state function
         count = 0 # Counts misplacedstickers 
         i = 0 #Used for looping faces
